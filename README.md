@@ -16,7 +16,7 @@ $ docker build -t react-docker-deployment:v1.0.0 .
 # 该镜像会同时拥有 latest 和 v1.0 两个标签
 $ docker build -t react-docker-deployment:latest -t react-docker-deployment:v1.0 .
 
-################################# 分割线 ###############################
+################################# - 分割线 - ###############################
 
 # 在后台运行容器
 # `-d`: 表示在后台运行容器
@@ -148,9 +148,30 @@ docker logs <CONTAINER_ID或NAME> (容器ID或者容器名称)
 docker rm <CONTAINER_ID or NAME>  (容器ID或者容器名)
 ```
 
-### TODO
+## Docker Compose 的基本使用
 
-- 目前还不清楚为什么配置了阿里云镜像，但是还是拉取不到指定镜像
+`Docker Compose` 用于部署和管理多容器应用，确保应用可以一致、高效地运行。尤其适合需要多个服务协同工作的项目
+
+```bash
+# 查看容器运行状态
+docker-compose ps
+
+# 构建并后台启动服务
+docker-compose up -d --build
+
+# `-f` 选项：允许你组合多个 Compose 文件，从而覆盖默认配置。
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# 查看实时日志
+docker-compose logs -f
+
+# 停止并清理服务
+docker-compose down
+```
+
+## TODO
+
+- [x] 目前还不清楚为什么配置了阿里云镜像，但是还是拉取不到指定镜像
 
 ### 相关链接
 

@@ -1,10 +1,51 @@
 version: '3.8'
 
 services:
-  app:
+  # 服务名称
+  frontend:
+    # NOTE: 这种写法是下面写法的简写 ↓
     build: .
+
+    # 这种写法可以用于指定 与默认 Dockerfile 名称不一样的场景，例如: Dockerfile.dev
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+
     ports:
       - "5173:5173"
+    # Dockerfile 中的 COPY: 镜像一旦构建好，不能动态同步文件，一次性拷贝，不会实时同步
+    # volumes(卷): 需要实时同步本地文件，主机和容器之间实时同步文件
     volumes:
-      - .:/app
-    command: ["pnpm", "dev"]
+      - .:/app # 将当前目录挂载（映射）到容器内的 /app
+      - /app/node_modules  # 避免覆盖 node_modules
+    command: ["pnpm", "dev", "--host"]
+
+# version: '3'
+# services:
+#   web:
+#     image: nginx:alpine
+#     ports:
+#       - "80:80"
+#     volumes:
+#       - ./nginx.conf:/etc/nginx/nginx.conf
+#     restart: always
+
+#   app:
+#     build: .
+#     ports:
+#       - "5000:5000"
+#     environment:
+#       NODE_ENV: production
+#     depends_on:
+#       - database
+
+#   database:
+#     image: mysql:5.7
+#     environment:
+#       MYSQL_ROOT_PASSWORD: example
+#     volumes:
+#       - db_data:/var/lib/mysql
+#     restart: always
+
+# volumes:
+#   db_data:
